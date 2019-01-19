@@ -34,12 +34,7 @@
 
             CommandContext context = new CommandContext(client, message);
 
-            IResult result = await commandService.ExecuteAsync(context, argPos, null);
-
-            if (!result.IsSuccess)
-            {
-                await context.Channel.SendMessageAsync(result.ErrorReason);
-            }
+            await commandService.ExecuteAsync(context, argPos, null);
         }
 
         private bool MessageIsValid(IUserMessage message, ref int argPos)
