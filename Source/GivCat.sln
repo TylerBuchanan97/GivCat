@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GivCat.Bot", "GivCat.Bot\GivCat.Bot.csproj", "{85957038-5DD3-4442-A08A-0A2B51924799}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GivCat.Api", "GivCat.Api\GivCat.Api.csproj", "{2FCBDCF4-D3BD-451A-A52D-2DFF89657ED4}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{85957038-5DD3-4442-A08A-0A2B51924799}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85957038-5DD3-4442-A08A-0A2B51924799}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85957038-5DD3-4442-A08A-0A2B51924799}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2FCBDCF4-D3BD-451A-A52D-2DFF89657ED4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2FCBDCF4-D3BD-451A-A52D-2DFF89657ED4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2FCBDCF4-D3BD-451A-A52D-2DFF89657ED4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2FCBDCF4-D3BD-451A-A52D-2DFF89657ED4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
