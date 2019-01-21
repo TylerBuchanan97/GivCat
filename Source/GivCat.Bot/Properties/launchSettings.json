@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "GivCat.Bot": {
-      "commandName": "Project",
-      "commandLineArgs": ""
-    }
-  }
-}
