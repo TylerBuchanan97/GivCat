@@ -12,7 +12,7 @@
     public class CatModule : ModuleBase
     {
         [Command, Summary("Posts a cat picture!")]
-        public async Task Cat()
+        public async Task Default()
         {
             HttpResponseMessage response =
                 await new HttpClient().GetAsync("https://api.thecatapi.com/v1/images/search");
