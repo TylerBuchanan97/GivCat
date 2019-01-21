@@ -7,9 +7,10 @@
 
     using Newtonsoft.Json.Linq;
 
+    [Group("cat")]
     public class CatModule : ModuleBase
     {
-        [Command("cat"), Summary("Posts a cat picture!")]
+        [Command, Summary("Posts a cat picture!")]
         public async Task Cat()
         {
             HttpResponseMessage response =
