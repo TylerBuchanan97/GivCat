@@ -1,5 +1,6 @@
 ﻿namespace GivCat.Bot.Initialization
 {
+    using System;
     using System.Reflection;
     using System.Threading.Tasks;
 
@@ -27,11 +28,11 @@
             this.commandService = commandService;
         }
 
-        public async Task InitializeGivCatBot(string botKey)
+        public async Task InitializeGivCatBot(string botKey, IServiceProvider serviceProvider)
         {
             RegisterEventListeners();
 
-            await RegisterModules();
+            await RegisterModules(serviceProvider);
 
             await client.LoginAsync(TokenType.Bot, botKey);
 
@@ -45,12 +46,21 @@
 
         private void RegisterEventListeners()
         {
+            client.Log += ProcessLogMessage;
+
             client.MessageReceived += ProcessReceivedMessage;
         }
 
-        private async Task RegisterModules()
+        private Task ProcessLogMessage(LogMessage logMessage)
         {
-            await commandService.AddModulesAsync(Assembly.GetExecutingAssembly(), null);
+            Console.WriteLine(logMessage.ToString());
+
+            return Task.CompletedTask;
+        }
+
+        private async Task RegisterModules(IServiceProvider serviceProvider)
+        {
+            await commandService.AddModulesAsync(Assembly.GetEntryAssembly(), serviceProvider);
         }
     }
 }

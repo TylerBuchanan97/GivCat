@@ -3,9 +3,13 @@
     using System;
     using System.Threading.Tasks;
 
+    using Discord;
     using Discord.Commands;
     using Discord.WebSocket;
 
+    using GivCat.Api.Common;
+    using GivCat.Api.Models;
+    using GivCat.Api.Request;
     using GivCat.Bot.Commands;
     using GivCat.Bot.Initialization;
 
@@ -24,7 +28,7 @@
 
             ServiceProvider serviceProvider = CreateServiceProvider();
 
-            await serviceProvider.GetService<IBotInitializer>().InitializeGivCatBot(args[0]);
+            await serviceProvider.GetService<IBotInitializer>().InitializeGivCatBot(args[0], serviceProvider);
 
             await Task.Delay(-1);
         }
@@ -32,8 +36,11 @@
         private static ServiceProvider CreateServiceProvider()
         {
             return new ServiceCollection().AddTransient<IBotInitializer, BotInitializer>()
-                .AddTransient<ICommandProcessor, CommandProcessor>().AddSingleton(new CommandService())
-                .AddSingleton(new DiscordSocketClient()).BuildServiceProvider();
+                .AddTransient<ICommandProcessor, CommandProcessor>()
+                .AddTransient<IRequestSender<CatApiRequest, CatApiResponse>, CatApiRequestSender>()
+                .AddSingleton(new CommandService())
+                .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig { LogLevel = LogSeverity.Info }))
+                .BuildServiceProvider();
         }
     }
 }

@@ -1,29 +1,38 @@
 ﻿namespace GivCat.Bot.Commands.Modules
 {
-    using System.Net.Http;
     using System.Threading.Tasks;
 
     using Discord;
     using Discord.Commands;
 
-    using Newtonsoft.Json.Linq;
+    using GivCat.Api.Common;
+    using GivCat.Api.Models;
 
     [Group("cat")]
     public class CatModule : ModuleBase
     {
+        private readonly IRequestSender<CatApiRequest, CatApiResponse> catApiRequestSender;
+
+        public CatModule(IRequestSender<CatApiRequest, CatApiResponse> catApiRequestSender)
+        {
+            this.catApiRequestSender = catApiRequestSender;
+        }
+
         [Command, Summary("Posts a cat picture!")]
         public async Task Default()
         {
-            HttpResponseMessage response =
-                await new HttpClient().GetAsync("https://api.thecatapi.com/v1/images/search");
+            CatApiResponse catApiResponse = await catApiRequestSender.SendRequestAsync(new CatApiRequest());
 
-            JArray responseContent = JArray.Parse(await response.Content.ReadAsStringAsync());
-
-            string imageUrl = responseContent?.First["url"]?.Value<string>();
-
-            if (!string.IsNullOrWhiteSpace(imageUrl))
+            if (catApiResponse == null)
             {
-                await ReplyAsync(embed: new EmbedBuilder().WithImageUrl(imageUrl).Build());
+                return;
+            }
+
+            string mediaUrl = catApiResponse.MediaUrl;
+
+            if (!string.IsNullOrWhiteSpace(mediaUrl))
+            {
+                await ReplyAsync(embed: new EmbedBuilder().WithImageUrl(mediaUrl).Build());
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿namespace GivCat.Bot.Commands
 {
+    using System;
     using System.Threading.Tasks;
 
     using Discord;
@@ -12,10 +13,16 @@
 
         private readonly CommandService commandService;
 
-        public CommandProcessor(DiscordSocketClient client, CommandService commandService)
+        private readonly IServiceProvider serviceProvider;
+
+        public CommandProcessor(
+            DiscordSocketClient client,
+            CommandService commandService,
+            IServiceProvider serviceProvider)
         {
             this.client = client;
             this.commandService = commandService;
+            this.serviceProvider = serviceProvider;
         }
 
         public async Task ProcessCommand(SocketMessage socketMessage)
@@ -34,7 +41,7 @@
 
             CommandContext context = new CommandContext(client, message);
 
-            await commandService.ExecuteAsync(context, argPos, null);
+            await commandService.ExecuteAsync(context, argPos, serviceProvider);
         }
 
         private bool MessageIsValid(IUserMessage message, ref int argPos)
