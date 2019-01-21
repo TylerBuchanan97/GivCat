@@ -3,6 +3,7 @@
     using System.Net.Http;
     using System.Threading.Tasks;
 
+    using Discord;
     using Discord.Commands;
 
     using Newtonsoft.Json.Linq;
@@ -22,7 +23,7 @@
 
             if (!string.IsNullOrWhiteSpace(imageUrl))
             {
-                await ReplyAsync(imageUrl);
+                await ReplyAsync(embed: new EmbedBuilder().WithImageUrl(imageUrl).Build());
             }
         }
     }
