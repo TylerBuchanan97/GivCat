@@ -18,17 +18,21 @@
 
         private readonly CommandService commandService;
 
+        private readonly IServiceProvider serviceProvider;
+
         public BotInitializer(
             DiscordSocketClient client,
             ICommandProcessor commandProcessor,
-            CommandService commandService)
+            CommandService commandService,
+            IServiceProvider serviceProvider)
         {
             this.client = client;
             this.commandProcessor = commandProcessor;
             this.commandService = commandService;
+            this.serviceProvider = serviceProvider;
         }
 
-        public async Task InitializeGivCatBot(string botKey, IServiceProvider serviceProvider)
+        public async Task InitializeGivCatBot(string botKey)
         {
             RegisterEventListeners();
 
@@ -37,6 +41,13 @@
             await client.LoginAsync(TokenType.Bot, botKey);
 
             await client.StartAsync();
+        }
+
+        private Task ProcessLogMessage(LogMessage logMessage)
+        {
+            Console.WriteLine(logMessage.ToString());
+
+            return Task.CompletedTask;
         }
 
         private async Task ProcessReceivedMessage(SocketMessage socketMessage)
@@ -49,13 +60,6 @@
             client.Log += ProcessLogMessage;
 
             client.MessageReceived += ProcessReceivedMessage;
-        }
-
-        private Task ProcessLogMessage(LogMessage logMessage)
-        {
-            Console.WriteLine(logMessage.ToString());
-
-            return Task.CompletedTask;
         }
 
         private async Task RegisterModules(IServiceProvider serviceProvider)

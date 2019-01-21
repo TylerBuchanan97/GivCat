@@ -5,6 +5,6 @@
 
     public interface IBotInitializer
     {
-        Task InitializeGivCatBot(string botKey, IServiceProvider serviceProvider);
+        Task InitializeGivCatBot(string botKey);
     }
 }

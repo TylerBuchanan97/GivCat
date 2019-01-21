@@ -28,7 +28,7 @@
 
             ServiceProvider serviceProvider = CreateServiceProvider();
 
-            await serviceProvider.GetService<IBotInitializer>().InitializeGivCatBot(args[0], serviceProvider);
+            await serviceProvider.GetService<IBotInitializer>().InitializeGivCatBot(args[0]);
 
             await Task.Delay(-1);
         }
