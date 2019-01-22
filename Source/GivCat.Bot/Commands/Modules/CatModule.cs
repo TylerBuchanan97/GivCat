@@ -28,7 +28,7 @@
                 return;
             }
 
-            string mediaUrl = catApiResponse.MediaUrl;
+            string mediaUrl = catApiResponse.Url;
 
             if (!string.IsNullOrWhiteSpace(mediaUrl))
             {

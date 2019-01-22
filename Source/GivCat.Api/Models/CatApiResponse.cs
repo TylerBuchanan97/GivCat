@@ -2,6 +2,6 @@
 {
     public class CatApiResponse
     {
-        public string MediaUrl { get; set; }
+        public string Url { get; set; }
     }
 }

@@ -18,7 +18,7 @@
 
             string imageUrl = responseContent?.First["url"]?.Value<string>();
 
-            return !string.IsNullOrWhiteSpace(imageUrl) ? new CatApiResponse { MediaUrl = imageUrl } : null;
+            return !string.IsNullOrWhiteSpace(imageUrl) ? new CatApiResponse { Url = imageUrl } : null;
         }
     }
 }
