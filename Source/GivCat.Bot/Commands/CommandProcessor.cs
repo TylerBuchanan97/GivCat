@@ -46,8 +46,9 @@
 
         private bool MessageIsValid(IUserMessage message, ref int argPos)
         {
-            return message.HasStringPrefix("giv ", ref argPos)
-                   || message.HasMentionPrefix(client.CurrentUser, ref argPos);
+            return (message.HasStringPrefix("giv ", ref argPos)
+                    || message.HasMentionPrefix(client.CurrentUser, ref argPos))
+                   && !(message.Channel is SocketDMChannel);
         }
     }
 }
