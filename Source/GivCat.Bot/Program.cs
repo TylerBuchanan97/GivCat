@@ -13,33 +13,38 @@
     using GivCat.Bot.Commands;
     using GivCat.Bot.Initialization;
 
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static async Task Main()
         {
-            if (args.Length < 1)
-            {
-                Console.WriteLine("Bot key not provided!");
+            IConfiguration configuration = CreateConfiguration();
 
-                Environment.Exit(0);
-            }
+            IServiceProvider serviceProvider = CreateServiceProvider(configuration);
 
-            IServiceProvider serviceProvider = CreateServiceProvider();
-
-            await serviceProvider.GetService<IBotInitializer>().InitializeGivCatBot(args[0]);
+            await serviceProvider.GetService<IBotInitializer>().InitializeGivCatBot();
 
             await Task.Delay(-1);
         }
 
-        private static ServiceProvider CreateServiceProvider()
+        private static IConfiguration CreateConfiguration()
+        {
+            string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            return new ConfigurationBuilder().SetBasePath(AppContext.BaseDirectory)
+                .AddJsonFile("appsettings.json", false, true).AddJsonFile($"appsettings.{environment}.json", true, true)
+                .Build();
+        }
+
+        private static ServiceProvider CreateServiceProvider(IConfiguration configuration)
         {
             return new ServiceCollection().AddTransient<IBotInitializer, BotInitializer>()
                 .AddTransient<ICommandProcessor, CommandProcessor>()
                 .AddTransient<IRequestSender<CatApiRequest, CatApiResponse>, CatApiRequestSender>()
-                .AddSingleton(new CommandService())
-                .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig { LogLevel = LogSeverity.Info }))
+                .AddSingleton(configuration).AddSingleton(new CommandService()).AddSingleton(
+                    new DiscordSocketClient(new DiscordSocketConfig { LogLevel = LogSeverity.Info }))
                 .BuildServiceProvider();
         }
     }
