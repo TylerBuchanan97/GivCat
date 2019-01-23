@@ -342,3 +342,6 @@ healthchecksdb
 
 # Local Property Files
 launchSettings.json
+
+# App Settings
+appsettings.*.json
