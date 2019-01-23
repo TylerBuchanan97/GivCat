@@ -1,5 +1,8 @@
 ﻿namespace GivCat.Bot.Commands.Modules
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Discord;
@@ -7,6 +10,8 @@
 
     using GivCat.Api.Common;
     using GivCat.Api.Models;
+
+    using Newtonsoft.Json.Linq;
 
     [Group("cat")]
     public class CatModule : ModuleBase
@@ -32,7 +37,16 @@
 
             if (!string.IsNullOrWhiteSpace(mediaUrl))
             {
-                await ReplyAsync(embed: new EmbedBuilder().WithImageUrl(mediaUrl).Build());
+                string breed = string.Empty;
+
+                IList<JObject> breedsList = catApiResponse.Breeds.ToList();
+
+                if (breedsList.Any())
+                {
+                    breed = $"Breed: {breedsList.FirstOrDefault()?["name"] ?? string.Empty}";
+                }
+
+                await ReplyAsync(embed: new EmbedBuilder().WithImageUrl(mediaUrl).WithFooter(breed).Build());
             }
         }
     }
