@@ -1,6 +1,5 @@
 ﻿namespace GivCat.Bot.Commands.Modules
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -24,9 +23,13 @@
         }
 
         [Command, Summary("Posts a cat picture!")]
-        public async Task Default()
+        public async Task Default([Remainder] string parameters = "")
         {
-            CatApiResponse catApiResponse = await catApiRequestSender.SendRequestAsync(new CatApiRequest());
+            CatApiResponse catApiResponse = await catApiRequestSender.SendRequestAsync(
+                                                new CatApiRequest
+                                                    {
+                                                        Parameters = parameters.Split(' ').Select(x => x.Trim())
+                                                    });
 
             if (catApiResponse == null)
             {
