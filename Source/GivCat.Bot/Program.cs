@@ -26,7 +26,7 @@
                 Environment.Exit(0);
             }
 
-            ServiceProvider serviceProvider = CreateServiceProvider();
+            IServiceProvider serviceProvider = CreateServiceProvider();
 
             await serviceProvider.GetService<IBotInitializer>().InitializeGivCatBot(args[0]);
 
