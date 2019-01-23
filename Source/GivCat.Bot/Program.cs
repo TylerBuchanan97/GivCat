@@ -31,7 +31,7 @@
 
         private static IConfiguration CreateConfiguration()
         {
-            string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            string environment = Environment.GetEnvironmentVariable("ENVIRONMENT");
 
             return new ConfigurationBuilder().SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json", false, true).AddJsonFile($"appsettings.{environment}.json", true, true)
