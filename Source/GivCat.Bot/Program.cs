@@ -7,9 +7,6 @@
     using Discord.Commands;
     using Discord.WebSocket;
 
-    using GivCat.Api.Common;
-    using GivCat.Api.Models;
-    using GivCat.Api.Request;
     using GivCat.Bot.Commands;
     using GivCat.Bot.Initialization;
 
@@ -41,10 +38,9 @@
         private static ServiceProvider CreateServiceProvider(IConfiguration configuration)
         {
             return new ServiceCollection().AddTransient<IBotInitializer, BotInitializer>()
-                .AddTransient<ICommandProcessor, CommandProcessor>()
-                .AddTransient<IRequestSender<CatApiRequest, CatApiResponse>, CatApiRequestSender>()
-                .AddSingleton(configuration).AddSingleton(new CommandService()).AddSingleton(
-                    new DiscordSocketClient(new DiscordSocketConfig { LogLevel = LogSeverity.Info }))
+                .AddTransient<ICommandProcessor, CommandProcessor>().AddSingleton(configuration)
+                .AddSingleton(new CommandService())
+                .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig { LogLevel = LogSeverity.Info }))
                 .BuildServiceProvider();
         }
     }
