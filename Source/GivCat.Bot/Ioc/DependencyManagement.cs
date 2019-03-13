@@ -9,8 +9,9 @@
     using GivCat.Bot.Commands;
     using GivCat.Bot.Initialization;
 
-    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+
+    using QuickConfiguration.Extensions;
 
     public class DependencyManagement
     {
@@ -18,22 +19,14 @@
 
         public static IServiceProvider Provider => provider ?? (provider = CreateServiceProvider());
 
-        private static IConfiguration CreateConfiguration()
-        {
-            string environment = Environment.GetEnvironmentVariable("ENVIRONMENT");
-
-            return new ConfigurationBuilder().SetBasePath(AppContext.BaseDirectory)
-                .AddJsonFile("appsettings.json", false, true).AddJsonFile($"appsettings.{environment}.json", true, true)
-                .Build();
-        }
-
         private static IServiceProvider CreateServiceProvider()
         {
             IServiceCollection serviceCollection = new ServiceCollection();
 
+            serviceCollection.AddDefaultConfiguration("ENVIRONMENT", "appsettings");
+
             serviceCollection.AddTransient<IBotInitializer, BotInitializer>();
             serviceCollection.AddTransient<ICommandProcessor, CommandProcessor>();
-            serviceCollection.AddSingleton(CreateConfiguration());
             serviceCollection.AddSingleton(new CommandService());
             serviceCollection.AddSingleton(
                 new DiscordSocketClient(new DiscordSocketConfig { LogLevel = LogSeverity.Info }));
