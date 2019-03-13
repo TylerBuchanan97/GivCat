@@ -29,11 +29,16 @@
 
         private static IServiceProvider CreateServiceProvider()
         {
-            return new ServiceCollection().AddTransient<IBotInitializer, BotInitializer>()
-                .AddTransient<ICommandProcessor, CommandProcessor>().AddSingleton(CreateConfiguration())
-                .AddSingleton(new CommandService())
-                .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig { LogLevel = LogSeverity.Info }))
-                .BuildServiceProvider();
+            IServiceCollection serviceCollection = new ServiceCollection();
+
+            serviceCollection.AddTransient<IBotInitializer, BotInitializer>();
+            serviceCollection.AddTransient<ICommandProcessor, CommandProcessor>();
+            serviceCollection.AddSingleton(CreateConfiguration());
+            serviceCollection.AddSingleton(new CommandService());
+            serviceCollection.AddSingleton(
+                new DiscordSocketClient(new DiscordSocketConfig { LogLevel = LogSeverity.Info }));
+
+            return serviceCollection.BuildServiceProvider();
         }
     }
 }
